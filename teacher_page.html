@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100vh;
+    }
+    h1 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    .dashboard-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .dashboard-links a {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin: 10px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    .dashboard-links a:hover {
+      background-color: #0056b3;
+    }
+    .teacher-info {
+      margin-top: 0;
+    }
+    .teacher-info p {
+    }
+    .logout-link {
+      text-align: center;
+    }
+    .logout-link a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .logout-link a:hover {
+      text-decoration: underline;
+    }
+    h1 {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+      padding: 20px;
+      border-radius: 8px;
+      display: block;
+      margin-left: 30%;
+    }
+    .one {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #csvRecords {
+      margin-top: 20px;
+    }
+    .csv-record {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .csv-record a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .csv-record a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+ <div class="one">
+  <div class="container">
+    <div class="teacher-info">
+      <p>Welcome, <strong id="usernamePlaceholder"></strong></p>
+    </div>
+    <div class="dashboard-links">
+      <a href="http://127.0.0.1:5000/">Take Attendance</a>
+
+      <a href="#" onclick="showRecords()">View Records</a>
+    </div>
+    <div class="logout-link">
+      <a href="./index.html">Logout</a>
+    </div>
+    <div id="csvRecords"></div>
+  </div>
+  <h1 align="center">Teacher Dashboard</h1>
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', (event) => {
+    fetchUsername();
+});
+
+function fetchUsername() {
+    // AJAX request to fetch the username
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var username = xhr.responseText;
+            document.getElementById("usernamePlaceholder").innerText = username;
+        }
+    };
+    xhr.open("GET", "fetch_username.php", true); // Modify the URL as per your server setup
+    xhr.send();
+}
+function showRecords() {
+    // AJAX request to fetch and display CSV files
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            document.getElementById("csvRecords").innerHTML = xhr.responseText;
+        }
+    };
+    xhr.open("GET", "fetch_csv_files.php", true);
+    xhr.send();
+}
+</script>
+</body>
+</html>

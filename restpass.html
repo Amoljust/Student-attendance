@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Password</title>
+  <style>
+    /* Your CSS styles here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .form-group input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .form-group input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .login-link {
+      margin-top: 10px;
+    }
+
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reset Password</h1>
+    <form action="#" method="post">
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Enter your username" required>
+      </div>
+      <div class="form-group">
+        <input type="radio" id="email" name="contact_method" value="email" checked>
+        <label for="email">Email</label>
+        <input type="radio" id="phone" name="contact_method" value="phone">
+        <label for="phone">Phone Number</label>
+      </div>
+      <div class="form-group" id="emailInput">
+        <input type="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group" id="phoneInput" style="display: none;">
+        <input type="text" name="phone" placeholder="Enter your phone number" required>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Send OTP">
+      </div>
+    </form>
+    <div class="login-link">
+      <p>Remember your password? <a href="teacher_login.html">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const emailInput = document.getElementById("emailInput");
+      const phoneInput = document.getElementById("phoneInput");
+      const emailRadio = document.getElementById("email");
+      const phoneRadio = document.getElementById("phone");
+
+      emailRadio.addEventListener("change", function() {
+        if (emailRadio.checked) {
+          emailInput.style.display = "block";
+          phoneInput.style.display = "none";
+        }
+      });
+
+      phoneRadio.addEventListener("change", function() {
+        if (phoneRadio.checked) {
+          emailInput.style.display = "none";
+          phoneInput.style.display = "block";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

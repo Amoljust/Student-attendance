@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="password"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .form-group input[type="button"],
+    .form-group input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .form-group input[type="button"]:hover,
+    .form-group input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    #video {
+      width: 100%;
+      height: auto;
+    }
+
+    #photo-count {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: red;
+      font-size: 20px;
+    }
+
+    .login-link {
+      margin-top: 10px;
+    }
+
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Student Registration</h1>
+    <form action="student.php" method="post">
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Enter your Full name" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="year" placeholder="Enter your year" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="Department" placeholder="Enter your Department" required>
+      </div>
+      <div class="form-group">
+        <div class="video-container">
+          <input type="button" value="Take Photos" id="take-50-photos">
+          <video id="video"></video>
+          <input type="hidden" name="photo_data" id="photo-data">
+          <div id="photo-count"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Register">
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('take-50-photos').addEventListener('click', async () => {
+      try {
+        const video = document.getElementById('video');
+        const photoDataInput = document.getElementById('photo-data');
+        const photoCount = document.getElementById('photo-count');
+
+        // Request permission to access the webcam
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+
+        // Display the video stream in the video element
+        video.srcObject = stream;
+        video.play();
+
+        // Show the video element
+        video.style.display = 'block';
+
+        // Show the photo count initially
+        photoCount.style.display = 'block';
+
+        let photosTaken = 0;
+
+        // Capture image from video stream repeatedly until 0 photos are taken
+        const intervalId = setInterval(() => {
+          if (photosTaken >= 20) {
+            clearInterval(intervalId); // Stop capturing photos
+            // Hide the video element
+            video.style.display = 'none';
+            // Hide the photo count
+            photoCount.style.display = 'none';
+            return;
+          }
+
+          // Create a canvas dynamically to capture image data
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+
+          // Set the canvas size to match the video stream
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+
+          // Draw the current frame from the video onto the canvas
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          // Get the image data from the canvas
+          const imageData = canvas.toDataURL('image/jpeg');
+
+          // Set the captured image data to the hidden input field
+          photoDataInput.value += imageData + '|'; // Append image data with a delimiter
+
+          // Increment the count of photos taken
+          photosTaken++;
+
+          // Update the photo count display
+          photoCount.textContent = `${photosTaken} / 20`;
+
+          // Remove the canvas from the DOM
+          canvas.remove();
+        }, 200); // Interval in milliseconds, adjust as needed
+      } catch (error) {
+        console.error('Error accessing webcam:', error);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="password"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .form-group input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    .form-group input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .register-link {
+      margin-top: 10px;
+    }
+    .register-link a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Teacher Login</h1>
+    <form action="teacher_login.php" method="post">
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Enter your password" required>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Login">
+      </div>
+    </form>
+    <div class="register-link">
+      <p>Don't have an account? <a href="./teacher_register.html">Register Now</a></p>
+    </div>
+    <script>
+      // Function to get URL parameter by name
+      function getUrlParameter(name) {
+          name = name.replace(/[\[\]]/g, '\\$&');
+          var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+              results = regex.exec(window.location.href);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+  
+      // Check if registration_success parameter is present and equal to 1
+      var registrationSuccess = getUrlParameter('registration_success');
+      if (registrationSuccess === '1') {
+          // Display a success message
+          alert('Registration successful!');
+      }
+  </script>
+  </div>
+  
+</body>
+</html>
